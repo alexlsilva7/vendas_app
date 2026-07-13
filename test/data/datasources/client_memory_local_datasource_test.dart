@@ -17,6 +17,28 @@ void main() {
       expect(clients[1].name, 'Maria Souza');
     });
 
+    test('Should watchAll stream and emit updates when clients are added', () async {
+      final stream = datasource.watchAll();
+      final emits = <List<ClientModel>>[];
+      
+      final sub = stream.listen(emits.add);
+      
+      await Future.delayed(Duration.zero);
+      expect(emits.length, 1);
+      expect(emits[0].length, 2);
+      
+      final newClient = ClientModel(name: 'New Client', email: '', phone: '');
+      await datasource.add(newClient);
+      
+      await Future.delayed(Duration.zero);
+      
+      expect(emits.length, 2);
+      expect(emits[1].length, 3);
+      expect(emits[1].last.name, 'New Client');
+      
+      await sub.cancel();
+    });
+
     test('Should add a new client', () async {
       final newClient = ClientModel(name: 'Teste', email: '', phone: '');
       await datasource.add(newClient);

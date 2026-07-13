@@ -13,7 +13,31 @@ void main() {
     test('Should initialize with five mocked products', () async {
       final products = await datasource.getAll();
       expect(products.length, 5);
-      expect(products.first.name, 'Notebook Pro 15');
+      expect(products.first.name, 'Notebook');
+    });
+
+    test('Should watchAll stream and emit updates when products are added', () async {
+      final stream = datasource.watchAll();
+      final emits = <List<ProductModel>>[];
+      
+      final sub = stream.listen(emits.add);
+      
+      // Wait for the microtask to run and add the initial list
+      await Future.delayed(Duration.zero);
+      expect(emits.length, 1);
+      expect(emits[0].length, 5);
+      
+      final newProduct = ProductModel(name: 'New Product', price: 15.0, imageUrl: '');
+      await datasource.add(newProduct);
+      
+      // Wait for the stream controller to process the event
+      await Future.delayed(Duration.zero);
+      
+      expect(emits.length, 2);
+      expect(emits[1].length, 6);
+      expect(emits[1].last.name, 'New Product');
+      
+      await sub.cancel();
     });
 
     test('Should add a new product', () async {

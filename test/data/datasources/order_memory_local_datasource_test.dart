@@ -16,6 +16,29 @@ void main() {
       expect(orders.isEmpty, true);
     });
 
+    test('Should watchAll stream and emit updates when orders are added', () async {
+      final stream = datasource.watchAll();
+      final emits = <List<OrderModel>>[];
+      
+      final sub = stream.listen(emits.add);
+      
+      await Future.delayed(Duration.zero);
+      expect(emits.length, 1);
+      expect(emits[0].isEmpty, true);
+      
+      final tClient = ClientModel(name: 'Client', email: '', phone: '');
+      final newOrder = OrderModel(client: tClient, items: []);
+      await datasource.add(newOrder);
+      
+      await Future.delayed(Duration.zero);
+      
+      expect(emits.length, 2);
+      expect(emits[1].length, 1);
+      expect(emits[1].last.id, newOrder.id);
+      
+      await sub.cancel();
+    });
+
     test('Should add a new order', () async {
       final tClient = ClientModel(name: 'Client', email: '', phone: '');
       final newOrder = OrderModel(client: tClient, items: []);
