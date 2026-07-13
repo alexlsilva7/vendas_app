@@ -38,6 +38,12 @@ dependencies:
   uuid: ^4.5.3
   intl: ^0.20.3
   flutter_staggered_animations_plus: ^1.0.2
+  cbl: ^3.6.0+2
+  cbl_flutter: ^3.3.5
+  cbl_flutter_ce: ^3.5.1
+  cached_network_image_ce: ^4.9.0
+  flutter_slidable: ^4.0.3
+  reel_text: ^0.4.1
 
 dev_dependencies:
   flutter_test:
