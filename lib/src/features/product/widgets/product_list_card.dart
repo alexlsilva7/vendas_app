@@ -1,3 +1,4 @@
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:vendas_app/src/application/helpers/currency_helper.dart';
@@ -109,10 +110,11 @@ class _ProductImage extends StatelessWidget {
       return placeholder;
     }
 
-    return Image.network(
-      imageUrl,
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
       fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) => placeholder,
+      placeholder: (context, url) => placeholder,
+      errorBuilder: (context, url, error) => placeholder,
     );
   }
 }

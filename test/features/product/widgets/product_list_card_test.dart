@@ -1,3 +1,4 @@
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,29 @@ void main() {
     expect(deletePressed, isTrue);
     expect(find.byIcon(Icons.shopping_cart), findsNothing);
     expect(find.byIcon(Icons.add_shopping_cart), findsNothing);
+  });
+
+  testWidgets('renders CachedNetworkImage when product has image URL', (tester) async {
+    final productWithImage = ProductModel(
+      name: 'Mouse Gamer',
+      price: 150,
+      imageUrl: 'https://example.com/mouse.jpg',
+      category: 'Periféricos',
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ProductListCard(
+            product: productWithImage,
+            onEdit: () {},
+            onDelete: () {},
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byType(CachedNetworkImage), findsOneWidget);
   });
 
   testWidgets('product page renders products as a list without cart UI', (
