@@ -39,7 +39,7 @@ void main() {
 
     test('filterByCategory should update the filtered list', () async {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tProductsList);
-      
+
       await viewModel.loadProducts();
       viewModel.filterByCategory('Frutas');
 
@@ -50,7 +50,7 @@ void main() {
     test('sortByName should sort products alphabetically', () async {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tProductsList);
       await viewModel.loadProducts();
-      
+
       viewModel.sortByName(ascending: true);
       expect(viewModel.products.first.name, 'Apple');
       expect(viewModel.products.last.name, 'TV');
@@ -62,7 +62,7 @@ void main() {
     test('sortByPrice should sort products by price', () async {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tProductsList);
       await viewModel.loadProducts();
-      
+
       viewModel.sortByPrice(ascending: true);
       expect(viewModel.products.first.price, 5.0); // Banana
       expect(viewModel.products.last.price, 1000.0); // TV
@@ -71,12 +71,32 @@ void main() {
     test('toggleFavorite should update repository and reload', () async {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tProductsList);
       when(() => mockRepository.update(any())).thenAnswer((_) async {});
-      
+
       await viewModel.loadProducts();
       await viewModel.toggleFavorite(tProduct1.id);
 
       verify(() => mockRepository.update(any())).called(1);
       verify(() => mockRepository.getAll()).called(2); // 1 on load, 1 on toggle
+    });
+
+    test('updateProduct should update repository and reload products', () async {
+      when(() => mockRepository.update(any())).thenAnswer((_) async {});
+      when(() => mockRepository.getAll()).thenAnswer((_) async => tProductsList);
+
+      await viewModel.updateProduct(tProduct1);
+
+      verify(() => mockRepository.update(tProduct1)).called(1);
+      verify(() => mockRepository.getAll()).called(1);
+    });
+
+    test('deleteProduct should delete from repository and reload products', () async {
+      when(() => mockRepository.delete(any())).thenAnswer((_) async {});
+      when(() => mockRepository.getAll()).thenAnswer((_) async => tProductsList);
+
+      await viewModel.deleteProduct(tProduct1.id);
+
+      verify(() => mockRepository.delete(tProduct1.id)).called(1);
+      verify(() => mockRepository.getAll()).called(1);
     });
   });
 }

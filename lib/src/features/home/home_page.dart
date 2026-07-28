@@ -8,7 +8,7 @@ import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
 import 'package:vendas_app/src/features/home/widgets/drawer.dart';
 import 'package:vendas_app/src/features/cart/widgets/cart_bottom_banner.dart';
 import 'package:vendas_app/src/features/product/product_viewmodel.dart';
-import 'package:vendas_app/src/features/product/widgets/product_card.dart';
+import 'package:vendas_app/src/features/home/widgets/product_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

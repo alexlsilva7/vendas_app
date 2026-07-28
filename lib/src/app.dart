@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vendas_app/src/application/ui/ui_config.dart';
 
@@ -14,6 +13,7 @@ import 'features/product/product_form_page.dart';
 import 'features/product/product_list_page.dart';
 import 'features/category/category_list_page.dart';
 import 'features/settings/settings_viewmodel.dart';
+import 'models/product_model.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -36,7 +36,9 @@ class App extends StatelessWidget {
               '/clients': (context) => const ClientListPage(),
               '/clients/form': (context) => const ClientFormPage(),
               '/products': (context) => const ProductListPage(),
-              '/products/form': (context) => const ProductFormPage(),
+              '/products/form': (context) => ProductFormPage(
+                product: ModalRoute.of(context)?.settings.arguments as ProductModel?,
+              ),
               '/categories': (context) => const CategoryListPage(),
               '/orders': (context) => const OrderListPage(),
               '/orders/detail': (context) => const OrderDetailPage(),
