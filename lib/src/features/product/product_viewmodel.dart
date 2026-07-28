@@ -41,6 +41,16 @@ class ProductViewModel extends ChangeNotifier {
     await loadProducts();
   }
 
+  Future<void> updateProduct(ProductModel product) async {
+    await _repository.update(product);
+    await loadProducts();
+  }
+
+  Future<void> deleteProduct(String productId) async {
+    await _repository.delete(productId);
+    await loadProducts();
+  }
+
   Future<void> toggleFavorite(String productId) async {
     final index = _allProducts.indexWhere((p) => p.id == productId);
     if (index != -1) {

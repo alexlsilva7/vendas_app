@@ -5,7 +5,9 @@ import 'package:vendas_app/src/features/product/product_viewmodel.dart';
 import 'package:vendas_app/src/features/category/category_viewmodel.dart';
 
 class ProductFormPage extends StatefulWidget {
-  const ProductFormPage({super.key});
+  const ProductFormPage({super.key, this.product});
+
+  final ProductModel? product;
 
   @override
   State<ProductFormPage> createState() => _ProductFormPageState();
@@ -18,6 +20,21 @@ class _ProductFormPageState extends State<ProductFormPage> {
   String? _selectedCategory;
   final _imageUrlController = TextEditingController();
 
+  bool get _isEditing => widget.product != null;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final product = widget.product;
+    if (product != null) {
+      _nameController.text = product.name;
+      _priceController.text = product.price.toStringAsFixed(2);
+      _selectedCategory = product.category;
+      _imageUrlController.text = product.imageUrl;
+    }
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -26,26 +43,45 @@ class _ProductFormPageState extends State<ProductFormPage> {
     super.dispose();
   }
 
-  void _saveForm() async {
+  Future<void> _saveForm() async {
     if (_formKey.currentState!.validate()) {
       final categoryViewModel = context.read<CategoryViewModel>();
       final categories = categoryViewModel.categories;
       final category = _selectedCategory ?? (categories.isNotEmpty ? categories.first.name : 'Geral');
 
-      final newProduct = ProductModel(
-        name: _nameController.text.trim(),
-        price: double.parse(_priceController.text.trim()),
-        category: category,
-        imageUrl: _imageUrlController.text.trim(),
-      );
-
       final productViewModel = context.read<ProductViewModel>();
-      await productViewModel.addProduct(newProduct);
+      final name = _nameController.text.trim();
+      final price = double.parse(_priceController.text.trim().replaceFirst(',', '.'));
+      final imageUrl = _imageUrlController.text.trim();
+
+      if (_isEditing) {
+        await productViewModel.updateProduct(
+          widget.product!.copyWith(
+            name: name,
+            price: price,
+            category: category,
+            imageUrl: imageUrl,
+          ),
+        );
+      } else {
+        await productViewModel.addProduct(
+          ProductModel(
+            name: name,
+            price: price,
+            category: category,
+            imageUrl: imageUrl,
+          ),
+        );
+      }
 
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Produto cadastrado com sucesso!')),
+          SnackBar(
+            content: Text(
+              _isEditing ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!',
+            ),
+          ),
         );
       }
     }
@@ -55,7 +91,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Novo Produto'),
+        title: Text(_isEditing ? 'Editar Produto' : 'Novo Produto'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Padding(
@@ -87,7 +123,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Insira o preço';
                   }
-                  if (double.tryParse(value) == null) {
+                  if (double.tryParse(value.replaceFirst(',', '.')) == null) {
                     return 'Preço inválido';
                   }
                   return null;
