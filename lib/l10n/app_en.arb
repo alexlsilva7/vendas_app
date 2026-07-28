@@ -1,0 +1,421 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "Vendas App",
+  "@appTitle": {
+    "description": "The title of the application shown in the app bar"
+  },
+
+  "search": "Search",
+  "@search": {
+    "description": "Tooltip or label for the search action"
+  },
+
+  "noProducts": "No products registered.",
+  "@noProducts": {
+    "description": "Message displayed when the product list is empty"
+  },
+
+  "all": "All",
+  "@all": {
+    "description": "Filter chip label to show all products"
+  },
+
+  "favorites": "Favorites",
+  "@favorites": {
+    "description": "Filter chip label to show only favorite products"
+  },
+
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Label for the dark mode toggle in the drawer"
+  },
+
+  "home": "Home",
+  "@home": {
+    "description": "Navigation label for the Home screen"
+  },
+
+  "clients": "Clients",
+  "@clients": {
+    "description": "Navigation label for the Clients screen"
+  },
+
+  "products": "Products",
+  "@products": {
+    "description": "Navigation label for the Products screen"
+  },
+
+  "categories": "Categories",
+  "@categories": {
+    "description": "Navigation label for the Categories screen"
+  },
+
+  "orders": "Orders",
+  "@orders": {
+    "description": "Navigation label for the Orders screen"
+  },
+
+  "addProduct": "Add Product",
+  "@addProduct": {
+    "description": "Tooltip or button label to add a new product"
+  },
+
+  "demoProductsAdding": "Adding demo products...",
+  "@demoProductsAdding": {
+    "description": "Snackbar message shown while adding mock products"
+  },
+
+  "demoProductsAdded": "Several demo products added!",
+  "@demoProductsAdded": {
+    "description": "Snackbar message shown after successfully adding mock products"
+  },
+
+  "sortProducts": "Sort Products",
+  "@sortProducts": {
+    "description": "Tooltip for the sort action in the products screen"
+  },
+
+  "sortBy": "Sort by:",
+  "@sortBy": {
+    "description": "Dialog title for selecting a sorting method"
+  },
+
+  "nameAZ": "Name (A-Z)",
+  "@nameAZ": {
+    "description": "Option to sort items by name in ascending order"
+  },
+
+  "nameZA": "Name (Z-A)",
+  "@nameZA": {
+    "description": "Option to sort items by name in descending order"
+  },
+
+  "priceLowHigh": "Price (Low to High)",
+  "@priceLowHigh": {
+    "description": "Option to sort items by price in ascending order"
+  },
+
+  "priceHighLow": "Price (High to Low)",
+  "@priceHighLow": {
+    "description": "Option to sort items by price in descending order"
+  },
+
+  "newProduct": "New Product",
+  "@newProduct": {
+    "description": "Title for the screen to create a new product"
+  },
+
+  "productNameLabel": "Product Name *",
+  "@productNameLabel": {
+    "description": "Label for the product name input field"
+  },
+
+  "enterProductName": "Enter the product name",
+  "@enterProductName": {
+    "description": "Validation message when product name is empty"
+  },
+
+  "priceLabel": "Price *",
+  "@priceLabel": {
+    "description": "Label for the product price input field"
+  },
+
+  "enterPrice": "Enter the price",
+  "@enterPrice": {
+    "description": "Validation message when price is empty"
+  },
+
+  "invalidPrice": "Invalid price",
+  "@invalidPrice": {
+    "description": "Validation message when price format is invalid"
+  },
+
+  "categoryLabel": "Category *",
+  "@categoryLabel": {
+    "description": "Label for the product category dropdown"
+  },
+
+  "selectCategory": "Select a category",
+  "@selectCategory": {
+    "description": "Validation message when no category is selected"
+  },
+
+  "imageUrlLabel": "Image URL (Optional)",
+  "@imageUrlLabel": {
+    "description": "Label for the image URL input field"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Button text to save a form"
+  },
+
+  "productSaved": "Product registered successfully!",
+  "@productSaved": {
+    "description": "Success message after saving a product"
+  },
+
+  "newClient": "New Client",
+  "@newClient": {
+    "description": "Title for the screen to create a new client"
+  },
+
+  "addClient": "Add Client",
+  "@addClient": {
+    "description": "Tooltip or button label to add a new client"
+  },
+
+  "demoClientsAdding": "Adding demo clients...",
+  "@demoClientsAdding": {
+    "description": "Snackbar message shown while adding mock clients"
+  },
+
+  "demoClientsAdded": "Several demo clients added!",
+  "@demoClientsAdded": {
+    "description": "Snackbar message shown after successfully adding mock clients"
+  },
+
+  "noClients": "No clients registered.",
+  "@noClients": {
+    "description": "Message displayed when the client list is empty"
+  },
+
+  "fullNameLabel": "Full Name *",
+  "@fullNameLabel": {
+    "description": "Label for the client full name input field"
+  },
+
+  "enterClientName": "Enter the client's name",
+  "@enterClientName": {
+    "description": "Validation message when client name is empty"
+  },
+
+  "emailLabel": "E-mail *",
+  "@emailLabel": {
+    "description": "Label for the client email input field"
+  },
+
+  "enterEmail": "Enter the e-mail",
+  "@enterEmail": {
+    "description": "Validation message when email is empty"
+  },
+
+  "invalidEmail": "Enter a valid e-mail",
+  "@invalidEmail": {
+    "description": "Validation message when email format is invalid"
+  },
+
+  "phoneLabel": "Phone *",
+  "@phoneLabel": {
+    "description": "Label for the client phone input field"
+  },
+
+  "enterPhone": "Enter the phone",
+  "@enterPhone": {
+    "description": "Validation message when phone is empty"
+  },
+
+  "clientSaved": "Client registered successfully!",
+  "@clientSaved": {
+    "description": "Success message after saving a client"
+  },
+
+  "addCategory": "Add Category",
+  "@addCategory": {
+    "description": "Tooltip or button label to add a new category"
+  },
+
+  "newCategory": "New Category",
+  "@newCategory": {
+    "description": "Dialog title to create a new category"
+  },
+
+  "editCategory": "Edit Category",
+  "@editCategory": {
+    "description": "Dialog title to edit an existing category"
+  },
+
+  "categoryNameLabel": "Category Name",
+  "@categoryNameLabel": {
+    "description": "Label for the category name input field"
+  },
+
+  "categoryNameHint": "Ex: Electronics, Clothes...",
+  "@categoryNameHint": {
+    "description": "Hint text for the category name input field"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Button text to cancel an action or dismiss a dialog"
+  },
+
+  "deleteCategory": "Delete Category",
+  "@deleteCategory": {
+    "description": "Dialog title for confirming category deletion"
+  },
+
+  "confirmDeleteCategory": "Do you really want to delete the category \"{categoryName}\"?",
+  "@confirmDeleteCategory": {
+    "description": "Confirmation message body for deleting a category",
+    "placeholders": {
+      "categoryName": {
+        "type": "String",
+        "example": "Electronics"
+      }
+    }
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Button text to confirm a deletion"
+  },
+
+  "noCategories": "No categories registered",
+  "@noCategories": {
+    "description": "Message displayed when the category list is empty"
+  },
+
+  "remove": "Remove",
+  "@remove": {
+    "description": "Button text to remove an item (e.g., from the cart)"
+  },
+
+  "itemsInCart": "{count, plural, =1{1 item in the cart} other{{count} items in the cart}}",
+  "@itemsInCart": {
+    "description": "Message showing how many items are in the shopping cart",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+
+  "viewCart": "View Cart",
+  "@viewCart": {
+    "description": "Button text to navigate to the shopping cart screen"
+  },
+
+  "emptyCart": "Your cart is empty.",
+  "@emptyCart": {
+    "description": "Message displayed when the shopping cart has no items"
+  },
+
+  "clientSelectLabel": "Client *",
+  "@clientSelectLabel": {
+    "description": "Label for the client selection dropdown in the cart"
+  },
+
+  "selectAClient": "Select a client",
+  "@selectAClient": {
+    "description": "Hint text for the client selection dropdown"
+  },
+
+  "totalAmount": "Total Amount:",
+  "@totalAmount": {
+    "description": "Label for the overall total price"
+  },
+
+  "checkout": "CHECKOUT",
+  "@checkout": {
+    "description": "Button text to finalize an order"
+  },
+
+  "orderSuccess": "Order placed successfully!",
+  "@orderSuccess": {
+    "description": "Success message after an order is placed"
+  },
+
+  "errorEmptyCart": "Empty cart.",
+  "@errorEmptyCart": {
+    "description": "Error message when trying to checkout with an empty cart"
+  },
+
+  "errorNoClient": "Select a client to finish the order.",
+  "@errorNoClient": {
+    "description": "Error message when trying to checkout without selecting a client"
+  },
+
+  "completedOrders": "Completed Orders",
+  "@completedOrders": {
+    "description": "Title for the completed orders screen"
+  },
+
+  "noOrders": "No orders placed.",
+  "@noOrders": {
+    "description": "Message displayed when the order list is empty"
+  },
+
+  "clientDetailsLabel": "Client:",
+  "@clientDetailsLabel": {
+    "description": "Label for the client name in a list item"
+  },
+
+  "dateLabel": "Date:",
+  "@dateLabel": {
+    "description": "Label for the date in a list item"
+  },
+
+  "orderNumber": "Order #{orderId}",
+  "@orderNumber": {
+    "description": "Title for the order details showing the order ID",
+    "placeholders": {
+      "orderId": {
+        "type": "String",
+        "example": "a1b2c3d4"
+      }
+    }
+  },
+
+  "clientInfo": "Client Information",
+  "@clientInfo": {
+    "description": "Section header for client details in an order"
+  },
+
+  "nameLabel": "Name:",
+  "@nameLabel": {
+    "description": "Label for the client's name"
+  },
+
+  "emailDetailsLabel": "E-mail:",
+  "@emailDetailsLabel": {
+    "description": "Label for the client's email"
+  },
+
+  "phoneDetailsLabel": "Phone:",
+  "@phoneDetailsLabel": {
+    "description": "Label for the client's phone number"
+  },
+
+  "orderItems": "Order Items",
+  "@orderItems": {
+    "description": "Section header for the items purchased in an order"
+  },
+
+  "productColumn": "Product",
+  "@productColumn": {
+    "description": "Column header for the product name in the order items table"
+  },
+
+  "qtyColumn": "Qty",
+  "@qtyColumn": {
+    "description": "Column header for the quantity in the order items table"
+  },
+
+  "unitPriceColumn": "Unit Price",
+  "@unitPriceColumn": {
+    "description": "Column header for the unit price in the order items table"
+  },
+
+  "subtotalColumn": "Subtotal",
+  "@subtotalColumn": {
+    "description": "Column header for the subtotal in the order items table"
+  },
+
+  "grandTotalLabel": "Grand Total:",
+  "@grandTotalLabel": {
+    "description": "Label for the grand total at the bottom of the order details"
+  }
+}

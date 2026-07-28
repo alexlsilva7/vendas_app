@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vendas_app/src/application/ui/ui_config.dart';
 
@@ -14,6 +13,8 @@ import 'features/product/product_form_page.dart';
 import 'features/product/product_list_page.dart';
 import 'features/category/category_list_page.dart';
 import 'features/settings/settings_viewmodel.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:vendas_app/l10n/app_localizations.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -30,6 +31,17 @@ class App extends StatelessWidget {
             theme: UiConfig.lightTheme,
             darkTheme: UiConfig.darkTheme,
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('pt', 'BR'),
+              Locale('es', 'ES'),
+            ],
             initialRoute: '/',
             routes: {
               '/': (context) => const HomePage(),
