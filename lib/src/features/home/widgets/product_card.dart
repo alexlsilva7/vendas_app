@@ -17,7 +17,7 @@ class ProductCard extends StatelessWidget {
     required this.cartViewModel,
   });
 
-  final dynamic product;
+  final ProductModel product;
   final ProductViewModel productViewModel;
   final CartViewModel cartViewModel;
 
