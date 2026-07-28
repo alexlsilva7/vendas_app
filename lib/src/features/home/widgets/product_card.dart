@@ -1,3 +1,4 @@
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:vendas_app/src/application/helpers/currency_helper.dart';
@@ -54,10 +55,16 @@ class ProductCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       product.imageUrl.isNotEmpty
-                          ? Image.network(
-                              product.imageUrl,
+                          ? CachedNetworkImage(
+                              imageUrl: product.imageUrl,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const ColoredBox(
+                              placeholder: (context, url) => const ColoredBox(
+                                color: Color(0xFFEDEDED),
+                                child: Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                ),
+                              ),
+                              errorBuilder: (context, url, error) => const ColoredBox(
                                 color: Color(0xFFEDEDED),
                                 child: Center(
                                   child: Icon(
