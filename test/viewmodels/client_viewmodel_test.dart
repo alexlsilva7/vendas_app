@@ -5,6 +5,7 @@ import 'package:vendas_app/src/models/client_model.dart';
 import 'package:vendas_app/src/features/client/client_viewmodel.dart';
 
 class MockClientRepository extends Mock implements ClientRepository {}
+
 class FakeClientModel extends Fake implements ClientModel {}
 
 void main() {
@@ -28,7 +29,7 @@ void main() {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
 
       expect(viewModel.isLoading, false);
-      
+
       final future = viewModel.loadClients();
       expect(viewModel.isLoading, true); // O notifyListeners é chamado antes do await
 
@@ -50,6 +51,26 @@ void main() {
       verify(() => mockRepository.add(any())).called(1);
       verify(() => mockRepository.getAll()).called(1);
       expect(viewModel.clients, tClientsList);
+    });
+
+    test('updateClient should update repository and reload clients', () async {
+      when(() => mockRepository.update(any())).thenAnswer((_) async {});
+      when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
+
+      await viewModel.updateClient(tClient);
+
+      verify(() => mockRepository.update(tClient)).called(1);
+      verify(() => mockRepository.getAll()).called(1);
+    });
+
+    test('deleteClient should delete from repository and reload clients', () async {
+      when(() => mockRepository.delete(any())).thenAnswer((_) async {});
+      when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
+
+      await viewModel.deleteClient(tClient.id);
+
+      verify(() => mockRepository.delete(tClient.id)).called(1);
+      verify(() => mockRepository.getAll()).called(1);
     });
   });
 }
