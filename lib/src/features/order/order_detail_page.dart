@@ -8,7 +8,13 @@ class OrderDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Pegando o pedido passado via argumentos de rota
-    final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
+    final order = ModalRoute.of(context)?.settings.arguments as OrderModel?;
+
+    if (order == null) {
+      return const Scaffold(
+        body: Center(child: Text('Pedido não encontrado.')),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
