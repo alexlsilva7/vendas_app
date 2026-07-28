@@ -72,9 +72,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
             ),
             Expanded(
-              child: productViewModel.products.isEmpty
-                  ? const Center(child: Text('Nenhum produto cadastrado.'))
-                  : GridView.builder(
+              child: productViewModel.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : productViewModel.products.isEmpty
+                      ? const Center(child: Text('Nenhum produto cadastrado.'))
+                      : GridView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
