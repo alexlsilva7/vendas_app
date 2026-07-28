@@ -4,7 +4,9 @@ import 'package:vendas_app/src/models/client_model.dart';
 import 'package:vendas_app/src/features/client/client_viewmodel.dart';
 
 class ClientFormPage extends StatefulWidget {
-  const ClientFormPage({super.key});
+  const ClientFormPage({super.key, this.client});
+
+  final ClientModel? client;
 
   @override
   State<ClientFormPage> createState() => _ClientFormPageState();
@@ -16,6 +18,20 @@ class _ClientFormPageState extends State<ClientFormPage> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  bool get _isEditing => widget.client != null;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final client = widget.client;
+    if (client != null) {
+      _nameController.text = client.name;
+      _emailController.text = client.email;
+      _phoneController.text = client.phone;
+    }
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -24,21 +40,35 @@ class _ClientFormPageState extends State<ClientFormPage> {
     super.dispose();
   }
 
-  void _saveForm() async {
+  Future<void> _saveForm() async {
     if (_formKey.currentState!.validate()) {
-      final newClient = ClientModel(
-        name: _nameController.text.trim(),
-        email: _emailController.text.trim(),
-        phone: _phoneController.text.trim(),
-      );
-
       final clientViewModel = context.read<ClientViewModel>();
-      await clientViewModel.addClient(newClient);
+      final name = _nameController.text.trim();
+      final email = _emailController.text.trim();
+      final phone = _phoneController.text.trim();
+
+      if (_isEditing) {
+        await clientViewModel.updateClient(
+          widget.client!.copyWith(
+            name: name,
+            email: email,
+            phone: phone,
+          ),
+        );
+      } else {
+        await clientViewModel.addClient(
+          ClientModel(name: name, email: email, phone: phone),
+        );
+      }
 
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cliente cadastrado com sucesso!')),
+          SnackBar(
+            content: Text(
+              _isEditing ? 'Cliente atualizado com sucesso!' : 'Cliente cadastrado com sucesso!',
+            ),
+          ),
         );
       }
     }
@@ -48,7 +78,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Novo Cliente'),
+        title: Text(_isEditing ? 'Editar Cliente' : 'Novo Cliente'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Padding(

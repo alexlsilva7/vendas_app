@@ -13,6 +13,7 @@ import 'features/product/product_form_page.dart';
 import 'features/product/product_list_page.dart';
 import 'features/category/category_list_page.dart';
 import 'features/settings/settings_viewmodel.dart';
+import 'models/client_model.dart';
 import 'models/product_model.dart';
 
 class App extends StatelessWidget {
@@ -34,7 +35,9 @@ class App extends StatelessWidget {
             routes: {
               '/': (context) => const HomePage(),
               '/clients': (context) => const ClientListPage(),
-              '/clients/form': (context) => const ClientFormPage(),
+              '/clients/form': (context) => ClientFormPage(
+                client: ModalRoute.of(context)?.settings.arguments as ClientModel?,
+              ),
               '/products': (context) => const ProductListPage(),
               '/products/form': (context) => ProductFormPage(
                 product: ModalRoute.of(context)?.settings.arguments as ProductModel?,
