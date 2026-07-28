@@ -44,16 +44,16 @@ class AppDependencies {
 
     return [
       ChangeNotifierProvider(
-        create: (_) => ClientViewModel(clientRepository)..loadClients(),
+        create: (_) => ClientViewModel(clientRepository),
       ),
       ChangeNotifierProvider(
-        create: (_) => CategoryViewModel(categoryRepository)..loadCategories(),
+        create: (_) => CategoryViewModel(categoryRepository),
       ),
       ChangeNotifierProvider(
-        create: (_) => ProductViewModel(productRepository)..loadProducts(),
+        create: (_) => ProductViewModel(productRepository, categoryRepository),
       ),
       ChangeNotifierProvider(
-        create: (_) => OrderViewModel(orderRepository)..loadOrders(),
+        create: (_) => OrderViewModel(orderRepository),
       ),
       ChangeNotifierProvider(
         create: (_) => CartViewModel(orderRepository),

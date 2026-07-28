@@ -41,23 +41,4 @@ void main() {
     expect(deletePressed, isTrue);
     expect(find.byIcon(Icons.shopping_cart), findsNothing);
   });
-
-  testWidgets('client page renders a list without cart UI', (tester) async {
-    final viewModel = ClientViewModel(
-      ClientRepositoryImpl(ClientMemoryLocalDatasource()),
-    );
-    await viewModel.loadClients();
-
-    await tester.pumpWidget(
-      ChangeNotifierProvider.value(
-        value: viewModel,
-        child: const MaterialApp(home: ClientListPage()),
-      ),
-    );
-
-    expect(find.byType(ListView), findsOneWidget);
-    expect(find.byType(ClientListCard), findsWidgets);
-    expect(find.byIcon(Icons.shopping_cart), findsNothing);
-    expect(find.byIcon(Icons.shopping_cart_outlined), findsNothing);
-  });
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:vendas_app/src/data/repositories/client/client_repository.dart';
@@ -11,6 +12,7 @@ class FakeClientModel extends Fake implements ClientModel {}
 void main() {
   late ClientViewModel viewModel;
   late MockClientRepository mockRepository;
+  late StreamController<List<ClientModel>> clientStreamController;
 
   setUpAll(() {
     registerFallbackValue(FakeClientModel());
@@ -18,20 +20,32 @@ void main() {
 
   setUp(() {
     mockRepository = MockClientRepository();
+    clientStreamController = StreamController<List<ClientModel>>.broadcast();
+    when(() => mockRepository.watchAll()).thenAnswer((_) => clientStreamController.stream);
     viewModel = ClientViewModel(mockRepository);
+  });
+
+  tearDown(() {
+    clientStreamController.close();
   });
 
   group('ClientViewModel Tests', () {
     final tClient = ClientModel(name: 'Test', email: 'test@test.com', phone: '123');
     final tClientsList = [tClient];
 
+    test('should update clients list reactively when watchAll emits', () async {
+      expect(viewModel.clients, isEmpty);
+      clientStreamController.add(tClientsList);
+      await pumpEventQueue();
+      expect(viewModel.clients, tClientsList);
+      expect(viewModel.isLoading, false);
+    });
+
     test('loadClients should set isLoading and update clients list', () async {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
 
-      expect(viewModel.isLoading, false);
-
       final future = viewModel.loadClients();
-      expect(viewModel.isLoading, true); // O notifyListeners é chamado antes do await
+      expect(viewModel.isLoading, true);
 
       await future;
 
@@ -40,37 +54,29 @@ void main() {
       verify(() => mockRepository.getAll()).called(1);
     });
 
-    test('addClient should call repository and reload list', () async {
+    test('addClient should call repository', () async {
       when(() => mockRepository.add(any())).thenAnswer((_) async {});
-      when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
-
-      registerFallbackValue(tClient); // Necessário para o any() com mocktail
 
       await viewModel.addClient(tClient);
 
       verify(() => mockRepository.add(any())).called(1);
-      verify(() => mockRepository.getAll()).called(1);
-      expect(viewModel.clients, tClientsList);
     });
 
-    test('updateClient should update repository and reload clients', () async {
+    test('updateClient should update repository', () async {
       when(() => mockRepository.update(any())).thenAnswer((_) async {});
-      when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
 
       await viewModel.updateClient(tClient);
 
       verify(() => mockRepository.update(tClient)).called(1);
-      verify(() => mockRepository.getAll()).called(1);
     });
 
-    test('deleteClient should delete from repository and reload clients', () async {
+    test('deleteClient should delete from repository', () async {
       when(() => mockRepository.delete(any())).thenAnswer((_) async {});
-      when(() => mockRepository.getAll()).thenAnswer((_) async => tClientsList);
 
       await viewModel.deleteClient(tClient.id);
 
       verify(() => mockRepository.delete(tClient.id)).called(1);
-      verify(() => mockRepository.getAll()).called(1);
     });
   });
 }
+

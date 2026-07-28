@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:vendas_app/src/data/repositories/order/order_repository.dart';
@@ -10,10 +11,17 @@ class MockOrderRepository extends Mock implements OrderRepository {}
 void main() {
   late OrderViewModel viewModel;
   late MockOrderRepository mockRepository;
+  late StreamController<List<OrderModel>> orderStreamController;
 
   setUp(() {
     mockRepository = MockOrderRepository();
+    orderStreamController = StreamController<List<OrderModel>>.broadcast();
+    when(() => mockRepository.watchAll()).thenAnswer((_) => orderStreamController.stream);
     viewModel = OrderViewModel(mockRepository);
+  });
+
+  tearDown(() {
+    orderStreamController.close();
   });
 
   group('OrderViewModel Tests', () {
@@ -21,6 +29,15 @@ void main() {
     final tOrder1 = OrderModel(client: tClient, items: [], date: DateTime(2022));
     final tOrder2 = OrderModel(client: tClient, items: [], date: DateTime(2023));
     final tOrdersList = [tOrder1, tOrder2];
+
+    test('should update orders list reactively when watchAll emits', () async {
+      expect(viewModel.orders, isEmpty);
+      orderStreamController.add(tOrdersList);
+      await pumpEventQueue();
+      expect(viewModel.orders.length, 2);
+      expect(viewModel.orders.first.date.year, 2023);
+      expect(viewModel.isLoading, false);
+    });
 
     test('loadOrders should fetch and sort by newest first by default', () async {
       when(() => mockRepository.getAll()).thenAnswer((_) async => tOrdersList);
@@ -40,3 +57,4 @@ void main() {
     });
   });
 }
+
