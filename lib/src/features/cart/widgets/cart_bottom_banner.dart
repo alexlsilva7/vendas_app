@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_text/reel_text.dart';
 import 'package:vendas_app/src/application/helpers/currency_helper.dart';
 import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
 
@@ -57,43 +58,18 @@ class CartBottomBanner extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 250),
-                              transitionBuilder: (child, animation) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: ScaleTransition(
-                                    scale: animation.drive(Tween<double>(begin: 0.95, end: 1.0)),
-                                    child: child,
-                                  ),
-                                );
-                              },
-                              child: Text(
+                            ClipRect(
+                              child: ReelText(
                                 '${cartViewModel.totalItemsCount} ${cartViewModel.totalItemsCount == 1 ? "item" : "itens"} no carrinho',
-                                key: ValueKey<int>(cartViewModel.totalItemsCount),
                                 style: theme.textTheme.labelMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
-                              transitionBuilder: (child, animation) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(0.0, 0.2),
-                                      end: Offset.zero,
-                                    ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
-                                    child: child,
-                                  ),
-                                );
-                              },
-                              child: Text(
+                            ClipRect(
+                              child: ReelText(
                                 CurrencyHelper.format(cartViewModel.totalAmount),
-                                key: ValueKey<String>(cartViewModel.totalAmount.toStringAsFixed(2)),
                                 style: theme.textTheme.titleMedium?.copyWith(
                                   color: theme.colorScheme.onSurface,
                                   fontWeight: FontWeight.bold,

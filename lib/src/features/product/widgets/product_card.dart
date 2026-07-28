@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widget_previews.dart';
 import 'package:vendas_app/src/application/helpers/currency_helper.dart';
+import 'package:vendas_app/src/data/datasources/local/order/order_memory_local_datasource.dart';
+import 'package:vendas_app/src/data/datasources/local/product/product_memory_local_datasource.dart';
+import 'package:vendas_app/src/data/repositories/order/order_repository_impl.dart';
+import 'package:vendas_app/src/data/repositories/product/product_repository_impl.dart';
 import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
 import 'package:vendas_app/src/features/product/product_viewmodel.dart';
+import 'package:vendas_app/src/models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -199,4 +205,18 @@ class _NotchedCardClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant _NotchedCardClipper oldClipper) {
     return oldClipper.radius != radius || oldClipper.notchRadius != notchRadius;
   }
+}
+
+@Preview(name: 'ProductCard', group: 'home', size: Size(200, 300))
+Widget previewProductCard() {
+  return ProductCard(
+    product: ProductModel(
+      name: 'Notebook',
+      price: 2500.0,
+      imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=600&auto=format&fit=crop',
+      category: 'Informática',
+    ),
+    productViewModel: ProductViewModel(ProductRepositoryImpl(ProductMemoryLocalDatasource())),
+    cartViewModel: CartViewModel(OrderRepositoryImpl(OrderMemoryLocalDatasource())),
+  );
 }

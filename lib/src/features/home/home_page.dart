@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widget_previews.dart';
 import 'package:flutter_staggered_animations_plus/flutter_staggered_animations_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:vendas_app/src/data/datasources/local/product/product_memory_local_datasource.dart';
+import 'package:vendas_app/src/data/repositories/product/product_repository_impl.dart';
 import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
 import 'package:vendas_app/src/features/home/widgets/drawer.dart';
 import 'package:vendas_app/src/features/cart/widgets/cart_bottom_banner.dart';
@@ -64,16 +67,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 itemBuilder: (context, index) {
                   final category = productViewModel.categories[index];
                   final isSelected = productViewModel.currentCategory == category;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: FilterChip(
-                      label: Text(category),
-                      selected: isSelected,
-                      onSelected: (_) {
-                        productViewModel.filterByCategory(category);
-                      },
-                    ),
-                  );
+                  return CategoryChip(category: category, isSelected: isSelected, productViewModel: productViewModel);
                 },
               ),
             ),
@@ -115,4 +109,40 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       bottomNavigationBar: const CartBottomBanner(),
     );
   }
+}
+
+class CategoryChip extends StatelessWidget {
+  const CategoryChip({
+    super.key,
+    required this.category,
+    required this.isSelected,
+    required this.productViewModel,
+  });
+
+  final String category;
+  final bool isSelected;
+  final ProductViewModel productViewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: FilterChip(
+        label: Text(category),
+        selected: isSelected,
+        onSelected: (_) {
+          productViewModel.filterByCategory(category);
+        },
+      ),
+    );
+  }
+}
+
+@Preview(name: 'CategoryChip', group: 'home', size: Size(200, 50))
+Widget previewCategoryChip() {
+  return CategoryChip(
+    category: 'Todos',
+    isSelected: true,
+    productViewModel: ProductViewModel(ProductRepositoryImpl(ProductMemoryLocalDatasource())),
+  );
 }

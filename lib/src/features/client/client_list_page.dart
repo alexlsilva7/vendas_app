@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widget_previews.dart';
 import 'package:provider/provider.dart';
 import 'package:vendas_app/src/features/client/client_viewmodel.dart';
 import 'package:vendas_app/src/features/cart/widgets/cart_bottom_banner.dart';
+import 'package:vendas_app/src/features/client/widgets/client_list_tile.dart';
 import 'package:vendas_app/src/models/client_model.dart';
 
 class ClientListPage extends StatelessWidget {
@@ -99,20 +101,14 @@ class ClientListPage extends StatelessWidget {
       body: clientViewModel.isLoading
           ? const Center(child: CircularProgressIndicator())
           : clientViewModel.clients.isEmpty
-              ? const Center(child: Text('Nenhum cliente cadastrado.'))
-              : ListView.builder(
-                  itemCount: clientViewModel.clients.length,
-                  itemBuilder: (context, index) {
-                    final client = clientViewModel.clients[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(client.name.substring(0, 1).toUpperCase()),
-                      ),
-                      title: Text(client.name),
-                      subtitle: Text('${client.email} | ${client.phone}'),
-                    );
-                  },
-                ),
+          ? const Center(child: Text('Nenhum cliente cadastrado.'))
+          : ListView.builder(
+              itemCount: clientViewModel.clients.length,
+              itemBuilder: (context, index) {
+                final client = clientViewModel.clients[index];
+                return ClientListTile(client: client);
+              },
+            ),
       bottomNavigationBar: const CartBottomBanner(),
     );
   }
