@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_text/reel_text.dart';
 import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
-import 'package:vendas_app/src/features/order/order_viewmodel.dart';
 
 class CartCheckoutSummary extends StatelessWidget {
-  const CartCheckoutSummary({super.key});
+  final Future<void> Function() onCheckout;
+
+  const CartCheckoutSummary({super.key, required this.onCheckout});
 
   @override
   Widget build(BuildContext context) {
     final cartViewModel = context.watch<CartViewModel>();
-    final orderViewModel = context.read<OrderViewModel>();
     final theme = Theme.of(context);
 
     return Container(
@@ -65,32 +65,7 @@ class CartCheckoutSummary extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              onPressed: () async {
-                try {
-                  final orderResult = await cartViewModel.checkout();
-                  // Atualiza o histórico de pedidos
-                  await orderViewModel.loadOrders();
-
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Pedido realizado com sucesso!'),
-                      ),
-                    );
-                    Navigator.of(
-                      context,
-                    ).pushReplacementNamed('/orders/detail', arguments: orderResult);
-                  }
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(e.toString().replaceAll('Exception: ', '')),
-                      ),
-                    );
-                  }
-                }
-              },
+              onPressed: onCheckout,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

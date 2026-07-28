@@ -61,10 +61,12 @@ class CartViewModel extends ChangeNotifier {
     }
   }
 
-  void clearCart() {
+  void clearCart({bool notify = true}) {
     _items.clear();
     _selectedClient = null;
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
   }
 
   Future<OrderModel> checkout() async {
@@ -82,8 +84,6 @@ class CartViewModel extends ChangeNotifier {
     final newOrder = OrderModel(client: _selectedClient!, items: orderItems);
 
     await _orderRepository.add(newOrder);
-
-    clearCart();
 
     return newOrder;
   }

@@ -4,6 +4,7 @@ import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
 import 'package:vendas_app/src/features/cart/widgets/cart_checkout_summary.dart';
 import 'package:vendas_app/src/features/cart/widgets/cart_item_card.dart';
 import 'package:vendas_app/src/features/cart/widgets/client_selector.dart';
+import 'package:vendas_app/src/features/order/order_viewmodel.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -11,7 +12,39 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartViewModel = context.watch<CartViewModel>();
+    final orderViewModel = context.read<OrderViewModel>();
     final theme = Theme.of(context);
+
+    Future<void> checkout() async {
+      final navigator = Navigator.of(context);
+      final messenger = ScaffoldMessenger.of(context);
+
+      try {
+        final order = await cartViewModel.checkout();
+        await orderViewModel.loadOrders();
+
+        if (!navigator.mounted) return;
+
+        messenger.showSnackBar(
+          const SnackBar(content: Text('Pedido realizado com sucesso!')),
+        );
+        navigator.pushReplacementNamed(
+          '/orders/detail',
+          arguments: order,
+        );
+        cartViewModel.clearCart(notify: false);
+      } catch (error) {
+        if (!messenger.mounted) return;
+
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              error.toString().replaceAll('Exception: ', ''),
+            ),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +94,7 @@ class CartPage extends StatelessWidget {
                   ),
                 ),
                 // Resumo Financeiro e Checkout
-                const CartCheckoutSummary(),
+                CartCheckoutSummary(onCheckout: checkout),
               ],
             ),
     );

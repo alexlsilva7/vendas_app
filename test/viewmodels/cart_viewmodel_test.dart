@@ -7,6 +7,7 @@ import 'package:vendas_app/src/models/product_model.dart';
 import 'package:vendas_app/src/features/cart/cart_viewmodel.dart';
 
 class MockOrderRepository extends Mock implements OrderRepository {}
+
 class FakeOrderModel extends Fake implements OrderModel {}
 
 void main() {
@@ -28,7 +29,7 @@ void main() {
 
     test('addToCart should add an item', () {
       viewModel.addToCart(tProduct);
-      
+
       expect(viewModel.items.length, 1);
       expect(viewModel.items.first.product.id, tProduct.id);
       expect(viewModel.items.first.quantity, 1);
@@ -37,7 +38,7 @@ void main() {
     test('addToCart with same product should increment quantity', () {
       viewModel.addToCart(tProduct);
       viewModel.addToCart(tProduct);
-      
+
       expect(viewModel.items.length, 1);
       expect(viewModel.items.first.quantity, 2);
     });
@@ -45,13 +46,13 @@ void main() {
     test('removeFromCart should remove the item completely', () {
       viewModel.addToCart(tProduct);
       viewModel.removeFromCart(tProduct.id);
-      
+
       expect(viewModel.items.isEmpty, true);
     });
 
     test('updateQuantity should change quantity or remove if zero', () {
       viewModel.addToCart(tProduct);
-      
+
       viewModel.updateQuantity(tProduct.id, 5);
       expect(viewModel.items.first.quantity, 5);
       expect(viewModel.totalAmount, 250.0);
@@ -69,15 +70,20 @@ void main() {
       expect(() => viewModel.checkout(), throwsException);
     });
 
-    test('checkout should save order and clear cart', () async {
+    test('checkout should save order without clearing cart', () async {
       when(() => mockRepository.add(any())).thenAnswer((_) async {});
-      
+
       viewModel.addToCart(tProduct);
       viewModel.selectClient(tClient);
 
       await viewModel.checkout();
 
       verify(() => mockRepository.add(any())).called(1);
+      expect(viewModel.items, isNotEmpty);
+      expect(viewModel.selectedClient, tClient);
+
+      viewModel.clearCart();
+
       expect(viewModel.items.isEmpty, true);
       expect(viewModel.selectedClient, null);
     });

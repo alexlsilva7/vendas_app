@@ -23,90 +23,95 @@ class CartBottomBanner extends StatelessWidget {
               );
             }
           },
-          child: AnimatedContainer(
+          child: AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            height: hasItems ? MediaQuery.of(context).padding.bottom + 70 : 0.0,
-            child: Material(
-              color: theme.colorScheme.surface,
-              elevation: 3,
-              borderRadius: BorderRadius.circular(16.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.0),
-                    topRight: Radius.circular(16.0),
-                  ),
-                  border: Border.all(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                            shape: BoxShape.circle,
+            alignment: Alignment.topCenter,
+            child: hasItems
+                ? SizedBox(
+                    height: MediaQuery.of(context).padding.bottom + 70,
+                    child: Material(
+                      color: theme.colorScheme.surface,
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(16.0),
                           ),
-                          child: Icon(Icons.shopping_cart, color: theme.colorScheme.primary, size: 24),
+                          border: Border.all(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
                         ),
-                        const SizedBox(width: 12),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ClipRect(
-                              child: ReelText(
-                                '${cartViewModel.totalItemsCount} ${cartViewModel.totalItemsCount == 1 ? "item" : "itens"} no carrinho',
-                                style: theme.textTheme.labelMedium?.copyWith(
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                  fontWeight: FontWeight.w500,
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(Icons.shopping_cart, color: theme.colorScheme.primary, size: 24),
                                 ),
-                              ),
+                                const SizedBox(width: 12),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRect(
+                                      child: ReelText(
+                                        '${cartViewModel.totalItemsCount} ${cartViewModel.totalItemsCount == 1 ? "item" : "itens"} no carrinho',
+                                        style: theme.textTheme.labelMedium?.copyWith(
+                                          color: theme.colorScheme.onSurfaceVariant,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    ClipRect(
+                                      child: ReelText(
+                                        CurrencyHelper.format(cartViewModel.totalAmount),
+                                        style: theme.textTheme.titleMedium?.copyWith(
+                                          color: theme.colorScheme.onSurface,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            ClipRect(
-                              child: ReelText(
-                                CurrencyHelper.format(cartViewModel.totalAmount),
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  color: theme.colorScheme.onSurface,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: theme.colorScheme.primary,
+                                foregroundColor: theme.colorScheme.onPrimary,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/cart',
+                                );
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  Text('Ver Carrinho', style: TextStyle(fontWeight: FontWeight.bold)),
+                                  SizedBox(width: 4),
+                                  Icon(Icons.arrow_forward, size: 16),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/cart',
-                        );
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Text('Ver Carrinho', style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(width: 4),
-                          Icon(Icons.arrow_forward, size: 16),
-                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  )
+                : const SizedBox.shrink(),
           ),
         );
       },
